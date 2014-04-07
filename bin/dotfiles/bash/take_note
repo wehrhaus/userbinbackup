@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Simple note keeper script.
+# Creates files based on date and timestamps entries.
+
+# setup date format to ##.##.##
+dateStamp=$(date +"%m.%d.%y")
+
+# write note to:
+fileName=$HOME/TakeNote/note_${dateStamp}.txt
+
+# get last line of file
+lastLine=`tail -1 $fileName`
+
+echo Last entry: "$lastLine"
+
+# handle input
+read -p "📝: " note
+
+# write to file
+echo $(date +"%r"): "$note" >> $fileName
+
+# feedback once note entered
+echo "$note" saved to "$fileName"

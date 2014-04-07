@@ -1,0 +1,461 @@
+############################################
+#----------- Aliases Operations -----------#
+#------------------------------------------#
+## reload aliases
+alias reload='source ~/bin/dotfiles/bash/aliases'
+
+## open aliases
+alias ea='subl -n ~/bin/dotfiles/bash/aliases'
+
+## show all aliases
+alias showa='~/bin/dotfiles/bash/readfile.sh ~/bin/dotfiles/bash/aliases'
+
+##################################
+#----------- Terminal -----------#
+#--------------------------------#
+## open new terminal and perform commands
+## no args = new terminal in current dir
+## first arg is directory, cd to directory perform remaining args as command
+## first arg not directory, call arg from current directory
+## -x flag closes window after command executes
+alias term='~/bin/dotfiles/bash/term.sh'
+
+function termcolor {
+    ~/bin/dotfiles/bash/termclr.pl $1
+}
+
+alias silverterm='~/bin/dotfiles/bash/termsilver.pl'
+
+################################
+#----------- Finder -----------#
+#------------------------------#
+## get IP Address
+alias getip='ifconfig | grep "inet " | grep -v 127.0.0.1'
+
+## open system preferences as root
+alias syspref='sudo "/Applications/System Preferences.app/Contents/MacOS/System Preferences"'
+
+## open activity monitor
+alias am='open "/Applications/Utilities/Activity Monitor.app"'
+
+## open finder in current directory
+alias o='open . &'
+
+## open bash
+alias ob='open . ~/bin/dotfiles/bash'
+
+## open ~/bin in sublime
+function openbin {
+    subl ~/bin
+    sleep 1
+    subl ~/.bash_profile
+    subl ~/.bashrc
+    subl ~/.bashsrc
+}
+
+## open firefox
+alias ff='open -a Firefox'
+
+## open netflix in firefox
+alias netflix='open -a Firefox http://www.netflix.com'
+
+## open ffb in firefox
+alias ffb='open -a Firefox http://games.espn.go.com/ffl/leagueoffice?leagueId=505064'
+
+## open iPhone Simulator
+alias ios='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+
+## open rhapsody in chrome
+alias rhap='open -a /Applications/Google\ Chrome.app http://www.rhapsody.com'
+
+## open assets
+alias oa='open ~/ColgateAssets/assets'
+
+## open temp
+alias ot='open ~/Desktop/temp'
+
+## open downloads
+alias od='open ~/downloads'
+## move to downloads
+alias downloads='cd ~/downloads'
+
+## open docuemnts
+alias odoc='open ~/Documents'
+
+## open hosts
+alias oh='subl -n /etc/hosts'
+
+## open ttp in chrome
+alias ttp='open -a /Applications/Google\ Chrome.app https://ttp.vmlapps.com/scripts/ttcgi.exe?command=LoginScreen'
+
+## open specified directory in finder
+function ospec {
+  open $1
+}
+
+## run in phantomjs
+function pj {
+    phantomjs ~/SDKs/phantomjs-1.9.0/examples/$1
+}
+
+###################################
+#----------- Processes -----------#
+#---------------------------------#
+## show terminal history
+alias h='history'
+
+## show cpu
+alias tu='top -o cpu'
+
+## show memory
+alias tm='top -o vsize'
+
+## display topten history
+function topten {
+	history |
+		awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' |
+		sort -rn |
+		head
+}
+
+## test find and replace file pattern (match/replace)
+function findandreplace_test {
+    find . -name '*'$1'*' -exec bash -c 'echo mv $0 ${0/'$1'/'$2'}' {} \;
+}
+
+## process find and replace file pattern (match/replace)
+function findandreplace_process {
+    find . -name '*'$1'*' -exec bash -c 'mv $0 ${0/'$1'/'$2'}' {} \;
+}
+
+## kill specified process
+function kill {
+    sudo kill $1
+}
+
+## Run Specified Grunt Command
+function doGrunt {
+    ~/bin/dotfiles/bash/gruntterm.sh $2
+    grunt $1
+}
+
+## Open New Terminal Window
+function newTerm {
+    ~/bin/dotfiles/bash/term.sh $1 $2 $3 $4 $5 $6 $7 $8 $9
+}
+#####################################
+#----------- Directories -----------#
+#-----------------------------------#
+## cd to ~/bin
+alias bin='cd ~/bin'
+
+## cd to /RedFuse_FrontEndDev/Sites
+alias sites='cd /RedFuse_FrontEndDev/Sites'
+
+## cd to /RedFuse_FrontEndDev/Sites/wehrhaus
+alias wehrhaus='cd /RedFuse_FrontEndDev/Sites/wehrhaus'
+
+## cd to /Sites/iwd
+alias iwd='cd /RedFuse_FrontEndDev/Sites/iwd'
+
+## cd to /ColgateAssets/assets
+alias assets='cd ~/ColgateAssets/assets'
+
+## cd to /svn16
+alias svn16='cd /svn16'
+
+## goto specific directory
+function goto {
+	cd $1
+}
+
+## make file executable
+function makeE {
+	chmod +x $1
+}
+
+## make folder executable
+function makeF {
+    chmod 755 -R $1
+}
+
+#############################
+#----------- SVN -----------#
+#---------------------------#
+
+## svn update current directory
+alias svnup='svn update'
+
+## make directory aware of .svnignore file
+alias svnsetignore='svn propset svn:ignore -F .svnignore .'
+
+## svn add all new files
+function svnaddspec {
+    svn add $(svn st | awk 'BEGIN{FS="       "} $1=="?" && $2 !~ /\.(sql|log|tmpl)$/ {print $2}')
+}
+
+## svn revert all missing modified files
+function svnrevertmissingspec {
+    svn revert $(svn st | awk 'BEGIN{FS="       "} $1=="!" && $2 !~ /\.(sql|log|tmpl)$/ {print $2}')
+}
+
+## svn revert all modified files
+function svnrevertspec {
+    svn revert $(svn st | awk 'BEGIN{FS="       "} $1=="M" && $2 !~ /\.(sql|log|tmpl)$/ {print $2}')
+}
+
+## svn commit current directory
+function svncomm {
+	svn commit -m "$1"
+}
+
+## svn update specific directory
+function svnUpdateSpec {
+	svn update $1
+	cd $1
+}
+
+## svn update specific directory to specific directory
+function svnUpdateSpecToSpec {
+	cdTo $1
+	svnUpdateSpec $2
+}
+
+#############################
+#----------- GIT -----------#
+#---------------------------#
+function createnewgit {
+    mkdir $1
+    cd $1
+    echo $1 > README.md
+    git init
+    git add README.md
+    git commit -m $2
+    git remote add origin git@github.com:wehrhaus/$1.git
+    git push -u origin master
+}
+
+function pushnewgit {
+    git remote add origin https://github.com/wehrhaus/$1.git
+    git push -u origin master
+}
+
+function gitclone {
+    git clone git@github.com:$1/$2.git
+    cd $2
+    git remote add upstream git@github.com:$1/$2.git
+    git fetch upstream
+}
+
+function gitfetch {
+    git fetch upstream
+    git merge upstream/master
+}
+
+########################################################
+#----------- justinwehrman.com | webfaction -----------#
+#------------------------------------------------------#
+## ssh into webfactional
+alias jwssh='ssh jwehrman@jwehrman.webfactional.com'
+
+################################
+#----------- Apache -----------#
+#------------------------------#
+## display running Apache processes
+alias statusa='ps -ax | grep Apache'
+
+## start apache
+alias starta='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k start'
+
+## stop apache
+alias stopa='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k stop'
+
+## restart apache
+alias restarta='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k restart'
+
+###############################
+#----------- MySQL -----------#
+#-----------------------------#
+## start MySQL
+alias startmysql='sudo /Library/StartupItems/MySQLCOM/MySQLCOM start'
+
+## stop MySQL
+alias stopmysql='sudo /Library/StartupItems/MySQLCOM/MySQLCOM stop'
+
+## MySQL
+alias mysql=/usr/local/mysql/bin/mysql
+
+## MySQL Admin
+alias mysqladmin=/usr/local/mysql/bin/mysqladmin
+
+##############################################
+#----------- CP Local Environment -----------#
+#--------------------------------------------#
+## run local environment
+alias runloc='. ~/bin/dotfiles/bash/cplocalenv.sh'
+
+## run sso local environment
+alias runsso='. ~/bin/dotfiles/bash/runsso.sh'
+
+################################
+#----------- JSMin  -----------#
+#------------------------------#
+## run jsmin on param 1 and output to param 2 - open in textmate for review
+function jsmin {
+    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
+    mate $1.min.js
+}
+
+## kill minified files
+function jsminkill {
+    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
+    frm $1.js
+    mv $1.min.js $1.js
+}
+
+################################
+#----------- JSDev  -----------#
+#------------------------------#
+## run jsdev on $1, conditions passed in $2 MUST BE WRAPPED IN QUOTES, output in $3
+function jsdev {
+    cat $1 | ~/bin/dotfiles/bash/./jsdev $2 > $3
+    node $3
+}
+
+################################
+#----------- NodeJS -----------#
+#------------------------------#
+## load in development env
+function nodedev {
+    NODE_ENV=development node $1
+}
+
+## load in production env
+function nodeprod {
+    NODE_ENV=production node $1
+}
+
+#######################################
+#----------- Random Utils  -----------#
+#-------------------------------------#
+## coffee watch/compile same name/different dirs (js/coffee)
+function coffeedir {
+    echo "watching $2, writing to $1"
+    coffee -o $1/ -cw $2/
+}
+
+## coffee watch/compile same name/same dir
+function coffeewatch {
+    coffee --watch --compile $1
+}
+
+##########################################
+#----------- Colgate Projects -----------#
+#----------------------------------------#
+
+## open ColgateDevEnv vhosts
+function vhosts {
+    subl /etc/hosts
+    subl /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-vhosts.conf
+}
+
+## RedFuse BoilerPlate v1
+function rfbp {
+    iwd
+    cd RedFuse-BoilerPlate-v1/trunk
+}
+
+## RedFuse BoilerPlate -Sublime
+function sublrfbp {
+    iwd
+    subl -n RedFuse-BoilerPlate-v1
+    rfbp
+}
+
+## SAC
+function sac {
+    iwd
+    cd ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection/
+}
+
+## SAC -Sublime
+function sublsac {
+    iwd
+    subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection
+    sac
+    open -a Firefox http://localhost.iwd.colgatemaximumcavityprotection.com/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 sac
+    fi
+}
+
+## SAC v2
+function sac2 {
+    iwd
+    cd ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2/
+}
+
+## SAC v2 -Sublime
+function sublsac2 {
+    iwd
+    subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2
+    sac2
+    open -a Firefox http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 sac2
+    fi
+}
+
+
+## Go to Professional in Terminal
+function prof {
+    iwd
+    cd Professional/trunk/v1/
+}
+
+## Professional -Sublime
+function sublprof {
+    iwd
+    subl Professional
+    prof
+    open -a Firefox http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 Professional
+    fi
+}
+
+
+## Go to Palmolive in Terminal
+function palmolive {
+    iwd
+    cd Palmolive/trunk/v3
+}
+
+## Palmolive -Sublime
+function sublpalmolive {
+    iwd
+    subl Palmolive
+    palmolive
+    open -a Firefox http://localhost.iwd.palmolive.com/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 Palmolive
+    fi
+}
+
+
+## COW
+function cow {
+    iwd
+    cd ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2/
+}
+
+## COW -Sublime
+function sublcow {
+    iwd
+    subl ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2
+    cow
+    open -a Firefox http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 cow
+    fi
+}
