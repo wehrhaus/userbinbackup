@@ -127,8 +127,6 @@ function makeF {
     chmod 755 -R $1
 }
 
-alias canary=
-
 #####################################
 #----------- Directories -----------#
 #-----------------------------------#
@@ -348,7 +346,7 @@ function sublsac {
     iwd
     subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection
     sac
-    open -a Firefox http://localhost.iwd.colgatemaximumcavityprotection.com/home/
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgatemaximumcavityprotection.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sac
     fi
@@ -365,7 +363,7 @@ function sublsac2 {
     iwd
     subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2
     sac2
-    open -a Firefox http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sac2
     fi
@@ -383,7 +381,7 @@ function sublprof {
     iwd
     subl Professional
     prof
-    open -a Firefox http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 Professional
     fi
@@ -401,7 +399,7 @@ function sublpalmolive {
     iwd
     subl Palmolive
     palmolive
-    open -a Firefox http://localhost.iwd.palmolive.com/home/
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.palmolive.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 Palmolive
     fi
@@ -419,7 +417,7 @@ function sublcow {
     iwd
     subl ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2
     cow
-    open -a Firefox http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
     if [[ $1 ]]; then
         newTerm doGrunt $1 cow
     fi
@@ -436,7 +434,7 @@ function sublsens {
     iwd
     subl ColgateSensitiveNew/
     sens
-    open -a Chrome http://localhost.iwd.colgatesensitive.com/home/
+    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgatesensitive.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sens
     fi
