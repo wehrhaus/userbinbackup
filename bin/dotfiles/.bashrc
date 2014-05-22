@@ -4,7 +4,7 @@
 . ~/bin/dotfiles/bash/aliases
 
 ## setup phantomjs loc
-export PATH=$HOME/SDKs/phantomjs-1.9.0/bin:$PATH
+export PATH=$HOME/SDKs/phantomjs-1.9.7/bin:$PATH
 
 ## setup nvm for node and set version
 . $HOME/nvm/nvm.sh

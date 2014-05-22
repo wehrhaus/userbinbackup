@@ -13,6 +13,7 @@ alias showa='~/bin/dotfiles/bash/readfile.sh ~/bin/dotfiles/bash/aliases'
 ##################################
 #----------- Terminal -----------#
 #--------------------------------#
+
 ## open new terminal and perform commands
 ## no args = new terminal in current dir
 ## first arg is directory, cd to directory perform remaining args as command
@@ -26,17 +27,14 @@ function termcolor {
 
 alias silverterm='~/bin/dotfiles/bash/termsilver.pl'
 
+## Open New Terminal Window
+function newTerm {
+    ~/bin/dotfiles/bash/term.sh $1 $2 $3 $4 $5 $6 $7 $8 $9
+}
+
 ################################
 #----------- Finder -----------#
 #------------------------------#
-## get IP Address
-alias getip='ifconfig | grep "inet " | grep -v 127.0.0.1'
-
-## open system preferences as root
-alias syspref='sudo "/Applications/System Preferences.app/Contents/MacOS/System Preferences"'
-
-## open activity monitor
-alias am='open "/Applications/Utilities/Activity Monitor.app"'
 
 ## open finder in current directory
 alias o='open . &'
@@ -45,62 +43,29 @@ alias o='open . &'
 alias ob='open . ~/bin/dotfiles/bash'
 
 ## open ~/bin in sublime
-function openbin {
-    subl ~/bin
-    sleep 1
-    subl ~/.bash_profile
-    subl ~/.bashrc
-    subl ~/.bashsrc
-}
-
-## open firefox
-alias ff='open -a Firefox'
-
-## open netflix in firefox
-alias netflix='open -a Firefox http://www.netflix.com'
-
-## open ffb in firefox
-alias ffb='open -a Firefox http://games.espn.go.com/ffl/leagueoffice?leagueId=505064'
+alias openbin='subl ~/.bashsrc ~/.bashrc ~/.bash_profile ~/bin'
 
 ## open iPhone Simulator
 alias ios='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 
-## open rhapsody in chrome
-alias rhap='open -a /Applications/Google\ Chrome.app http://www.rhapsody.com'
-
 ## open assets
 alias oa='open ~/ColgateAssets/assets'
 
-## open temp
-alias ot='open ~/Desktop/temp'
-
 ## open downloads
 alias od='open ~/downloads'
-## move to downloads
-alias downloads='cd ~/downloads'
-
-## open docuemnts
-alias odoc='open ~/Documents'
 
 ## open hosts
 alias oh='subl -n /etc/hosts'
 
-## open ttp in chrome
-alias ttp='open -a /Applications/Google\ Chrome.app https://ttp.vmlapps.com/scripts/ttcgi.exe?command=LoginScreen'
-
-## open specified directory in finder
-function ospec {
-  open $1
-}
-
-## run in phantomjs
-function pj {
-    phantomjs ~/SDKs/phantomjs-1.9.0/examples/$1
+## open ColgateDevEnv vhosts
+function vhosts {
+    subl /etc/hosts /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-vhosts.conf /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-userdir.conf
 }
 
 ###################################
 #----------- Processes -----------#
 #---------------------------------#
+
 ## show terminal history
 alias h='history'
 
@@ -118,6 +83,30 @@ function topten {
 		head
 }
 
+## kill specified process
+function kill {
+    sudo kill $1
+}
+
+################################
+#----------- Utils  -----------#
+#------------------------------#
+
+## get IP Address
+alias getip='ifconfig | grep "inet " | grep -v 127.0.0.1'
+
+## open activity monitor
+alias am='open "/Applications/Utilities/Activity Monitor.app"'
+
+## open ffb in firefox
+alias ffb='open -a Firefox http://games.espn.go.com/ffl/leagueoffice?leagueId=505064'
+
+## Run Specified Grunt Command
+function doGrunt {
+    ~/bin/dotfiles/bash/gruntterm.sh $2
+    grunt $1
+}
+
 ## test find and replace file pattern (match/replace)
 function findandreplace_test {
     find . -name '*'$1'*' -exec bash -c 'echo mv $0 ${0/'$1'/'$2'}' {} \;
@@ -128,24 +117,20 @@ function findandreplace_process {
     find . -name '*'$1'*' -exec bash -c 'mv $0 ${0/'$1'/'$2'}' {} \;
 }
 
-## kill specified process
-function kill {
-    sudo kill $1
+## make file executable
+function makeE {
+    chmod +x $1
 }
 
-## Run Specified Grunt Command
-function doGrunt {
-    ~/bin/dotfiles/bash/gruntterm.sh $2
-    grunt $1
+## make folder executable
+function makeF {
+    chmod 755 -R $1
 }
 
-## Open New Terminal Window
-function newTerm {
-    ~/bin/dotfiles/bash/term.sh $1 $2 $3 $4 $5 $6 $7 $8 $9
-}
 #####################################
 #----------- Directories -----------#
 #-----------------------------------#
+
 ## cd to ~/bin
 alias bin='cd ~/bin'
 
@@ -169,14 +154,20 @@ function goto {
 	cd $1
 }
 
-## make file executable
-function makeE {
-	chmod +x $1
+################################
+#----------- JSMin  -----------#
+#------------------------------#
+## run jsmin on param 1 and output to param 2 - open in textmate for review
+function jsmin {
+    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
+    mate $1.min.js
 }
 
-## make folder executable
-function makeF {
-    chmod 755 -R $1
+## kill minified files
+function jsminkill {
+    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
+    frm $1.js
+    mv $1.min.js $1.js
 }
 
 #############################
@@ -261,6 +252,7 @@ alias jwssh='ssh jwehrman@jwehrman.webfactional.com'
 ################################
 #----------- Apache -----------#
 #------------------------------#
+
 ## display running Apache processes
 alias statusa='ps -ax | grep Apache'
 
@@ -276,6 +268,7 @@ alias restarta='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k restart'
 ###############################
 #----------- MySQL -----------#
 #-----------------------------#
+
 ## start MySQL
 alias startmysql='sudo /Library/StartupItems/MySQLCOM/MySQLCOM start'
 
@@ -291,36 +284,12 @@ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 ##############################################
 #----------- CP Local Environment -----------#
 #--------------------------------------------#
+
 ## run local environment
 alias runloc='. ~/bin/dotfiles/bash/cplocalenv.sh'
 
 ## run sso local environment
 alias runsso='. ~/bin/dotfiles/bash/runsso.sh'
-
-################################
-#----------- JSMin  -----------#
-#------------------------------#
-## run jsmin on param 1 and output to param 2 - open in textmate for review
-function jsmin {
-    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
-    mate $1.min.js
-}
-
-## kill minified files
-function jsminkill {
-    ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
-    frm $1.js
-    mv $1.min.js $1.js
-}
-
-################################
-#----------- JSDev  -----------#
-#------------------------------#
-## run jsdev on $1, conditions passed in $2 MUST BE WRAPPED IN QUOTES, output in $3
-function jsdev {
-    cat $1 | ~/bin/dotfiles/bash/./jsdev $2 > $3
-    node $3
-}
 
 ################################
 #----------- NodeJS -----------#
@@ -352,12 +321,6 @@ function coffeewatch {
 ##########################################
 #----------- Colgate Projects -----------#
 #----------------------------------------#
-
-## open ColgateDevEnv vhosts
-function vhosts {
-    subl /etc/hosts
-    subl /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-vhosts.conf
-}
 
 ## RedFuse BoilerPlate v1
 function rfbp {
@@ -457,5 +420,22 @@ function sublcow {
     open -a Firefox http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
     if [[ $1 ]]; then
         newTerm doGrunt $1 cow
+    fi
+}
+
+## Colgate Sensitive
+function sens {
+    iwd
+    cd ColgateSensitiveNew/trunk/v2/
+}
+
+## Colgate Sensitive -Sublime
+function sublsens {
+    iwd
+    subl ColgateSensitiveNew/
+    sens
+    open -a Firefox http://localhost.iwd.colgatesensitive.com/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 sens
     fi
 }

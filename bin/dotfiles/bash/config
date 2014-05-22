@@ -2,7 +2,16 @@
 # Username:WorkingDirectory [VersionControlShortName:Revision]
 # additionally a + will be added if modified files exist
 # PS1="\n\u:\w [\$(vcprompt --format-svn %s:%r%m)] \n→ "
-PS1="\n\e[1;34m\u\e[m:\w\n→ "
+
+# set prompt to display as:
+# username:working directory
+# →
+#PS1="\n\e[1;34m\u\e[m:\w\n→ "
+
+# set prompt to display as:
+# wehrhaus:working directory
+# →
+PS1="\n\e[1;34mwehrhaus\e[m:\w\n👽 "
 
 # Show all filename extensions in Finder
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
