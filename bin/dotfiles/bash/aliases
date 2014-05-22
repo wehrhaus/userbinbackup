@@ -127,6 +127,8 @@ function makeF {
     chmod 755 -R $1
 }
 
+alias canary=
+
 #####################################
 #----------- Directories -----------#
 #-----------------------------------#
@@ -434,7 +436,7 @@ function sublsens {
     iwd
     subl ColgateSensitiveNew/
     sens
-    open -a Firefox http://localhost.iwd.colgatesensitive.com/home/
+    open -a Chrome http://localhost.iwd.colgatesensitive.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sens
     fi
