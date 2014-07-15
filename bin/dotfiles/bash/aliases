@@ -92,6 +92,15 @@ function kill {
 #----------- Utils  -----------#
 #------------------------------#
 
+## run take_note - if param passed directory will open in finder
+function note {
+    if [[ $1 ]]; then
+        open ~/TakeNote/
+    else
+        take_note
+    fi
+}
+
 ## get IP Address
 alias getip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 
@@ -127,6 +136,18 @@ function makeF {
     chmod 755 -R $1
 }
 
+## open file in canary
+function canary {
+    open -a /Applications/Google\ Chrome\ Canary.app $1
+}
+
+## run communication applications
+function runcomm {
+    open -a /Applications/Skype.app
+    open -a /Applications/Trillian.app
+    open -a /Applications/Microsoft\ Office\ 2011/Microsoft\ Outlook.app
+}
+
 #####################################
 #----------- Directories -----------#
 #-----------------------------------#
@@ -160,13 +181,13 @@ function goto {
 ## run jsmin on param 1 and output to param 2 - open in textmate for review
 function jsmin {
     ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
-    mate $1.min.js
+    subl $1.min.js
 }
 
 ## kill minified files
 function jsminkill {
     ~/bin/dotfiles/bash/./jsmin <$1.js >$1.min.js
-    frm $1.js
+    rm $1.js
     mv $1.min.js $1.js
 }
 
@@ -305,7 +326,7 @@ function nodeprod {
 }
 
 #######################################
-#----------- Random Utils  -----------#
+#----------- Coffee Utils  -----------#
 #-------------------------------------#
 ## coffee watch/compile same name/different dirs (js/coffee)
 function coffeedir {
@@ -346,7 +367,7 @@ function sublsac {
     iwd
     subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection
     sac
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgatemaximumcavityprotection.com/home/
+    canary http://localhost.iwd.colgatemaximumcavityprotection.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sac
     fi
@@ -363,7 +384,7 @@ function sublsac2 {
     iwd
     subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2
     sac2
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
+    canary http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sac2
     fi
@@ -381,7 +402,7 @@ function sublprof {
     iwd
     subl Professional
     prof
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
+    canary http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 Professional
     fi
@@ -399,7 +420,7 @@ function sublpalmolive {
     iwd
     subl Palmolive
     palmolive
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.palmolive.com/home/
+    canary http://localhost.iwd.palmolive.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 Palmolive
     fi
@@ -417,7 +438,7 @@ function sublcow {
     iwd
     subl ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2
     cow
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
+    canary http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
     if [[ $1 ]]; then
         newTerm doGrunt $1 cow
     fi
@@ -434,8 +455,25 @@ function sublsens {
     iwd
     subl ColgateSensitiveNew/
     sens
-    open -a /Applications/Google\ Chrome\ Canary.app http://localhost.iwd.colgatesensitive.com/home/
+    canary http://localhost.iwd.colgatesensitive.com/home/
     if [[ $1 ]]; then
         newTerm doGrunt $1 sens
+    fi
+}
+
+## Colgate Kids
+function kids {
+    iwd
+    cd Kids-World/trunk/v3/
+}
+
+## Colgate Kids -Sublime
+function sublkids {
+    iwd
+    subl Kids-World/
+    kids
+    canary http://localhost.iwd.colgate.com/Kids-World/v3/US/EN/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 kids
     fi
 }
