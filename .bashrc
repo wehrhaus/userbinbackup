@@ -8,6 +8,7 @@ export PATH=/usr/lib/scala-2.10.3/bin:$PATH
 export PATH=/usr/local/pgsql/bin:$PATH
 export PATH=$HOME/libs/mongodb/bin:$PATH
 export PATH=/ColgateDevEnv/ant-1.6.2/bin:$PATH
+export PATH=/opt/ImageMagick/bin:$PATH
 
 export RFDEV=/RedFuse_FrontEndDev
 export TEMP_DIR=~/tmp

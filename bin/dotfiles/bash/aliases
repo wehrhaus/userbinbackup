@@ -48,9 +48,6 @@ alias openbin='subl ~/.bashsrc ~/.bashrc ~/.bash_profile ~/bin'
 ## open iPhone Simulator
 alias ios='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 
-## open assets
-alias oa='open ~/ColgateAssets/assets'
-
 ## open downloads
 alias od='open ~/downloads'
 
@@ -94,8 +91,10 @@ function kill {
 
 ## run take_note - if param passed directory will open in finder
 function note {
-    if [[ $1 ]]; then
+    if [[ $1 == o ]]; then
         open ~/TakeNote/
+    elif [[ $1 == cd ]]; then
+        cd ~/TakeNote/
     else
         take_note
     fi
@@ -165,7 +164,10 @@ alias wehrhaus='cd /RedFuse_FrontEndDev/Sites/wehrhaus'
 alias iwd='cd /RedFuse_FrontEndDev/Sites/iwd'
 
 ## cd to /ColgateAssets/assets
-alias assets='cd ~/ColgateAssets/assets'
+alias assets='cd /RedFuse_FrontEndDev/AppAssets/assets'
+
+## open assets
+alias oa='open ~/ColgateAssets/assets'
 
 ## cd to /svn16
 alias svn16='cd /svn16'
@@ -475,5 +477,22 @@ function sublkids {
     canary http://localhost.iwd.colgate.com/Kids-World/v3/US/EN/
     if [[ $1 ]]; then
         newTerm doGrunt $1 kids
+    fi
+}
+
+## Irish Spring
+function is {
+    iwd
+    cd IrishSpring/trunk/v3/
+}
+
+## Irish Spring -Sublime
+function sublis {
+    iwd
+    subl IrishSpring/
+    is
+    canary http://localhost.iwd.irishspring.com/home/
+    if [[ $1 ]]; then
+        newTerm doGrunt $1 is
     fi
 }
