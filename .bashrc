@@ -14,8 +14,9 @@ export RFDEV=/RedFuse_FrontEndDev
 export TEMP_DIR=~/tmp
 export GEM_HOME=~/gems
 
-export NODE_PATH=/Users/jwehrman/nvm/v0.10.0/bin/node:/Users/jwehrman/nvm/v0.10.0/bin/lib/node_modules
-export PATH=$NODE_PATH:$PATH
+# export NODE_PATH=/Users/jwehrman/nvm/v0.10.0/bin/node:/Users/jwehrman/nvm/v0.10.0/bin/lib/node_modules
+# export PATH=$NODE_PATH:$PATH
 
 test -r /sw/bin/init.sh && . /sw/bin/init.sh
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export NODE_PATH=/Users/jwehrman/nvm/v0.11.12/lib/node_modules
