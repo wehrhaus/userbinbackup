@@ -32,6 +32,15 @@ function newTerm {
     ~/bin/dotfiles/bash/term.sh $1 $2 $3 $4 $5 $6 $7 $8 $9
 }
 
+# Usage:
+#     tab                   Opens the current directory in a new tab
+#     tab [PATH]            Open PATH in a new tab
+#     tab [CMD]             Open a new tab and execute CMD
+#     tab [PATH] [CMD] ...  You can prob'ly guess
+function newTab {
+    ~/bin/dotfiles/bash/tab.sh $1 $2 $3
+}
+
 ################################
 #----------- Finder -----------#
 #------------------------------#
@@ -46,18 +55,13 @@ alias ob='open . ~/bin/dotfiles/bash'
 alias openbin='subl ~/.bashsrc ~/.bashrc ~/.bash_profile ~/bin'
 
 ## open iPhone Simulator
-alias ios='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+alias ios='open /Applications/Xcode.app/Contents/Developer/Applications/iOS\ Simulator.app'
 
 ## open downloads
 alias od='open ~/downloads'
 
 ## open hosts
 alias oh='subl -n /etc/hosts'
-
-## open ColgateDevEnv vhosts
-function vhosts {
-    subl /etc/hosts /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-vhosts.conf /ColgateDevEnv/Apache2.2MacOS/conf/extra/httpd-userdir.conf
-}
 
 ###################################
 #----------- Processes -----------#
@@ -74,15 +78,20 @@ alias tm='top -o vsize'
 
 ## display topten history
 function topten {
-	history |
-		awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' |
-		sort -rn |
-		head
+    history |
+        awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' |
+        sort -rn |
+        head
 }
 
 ## kill specified process
 function kill {
     sudo kill $1
+}
+
+## get pid running port $1
+function portpid {
+    lsof -n -i4TCP:$1 | grep LISTEN
 }
 
 ################################
@@ -113,6 +122,12 @@ alias ffb='open -a Firefox http://games.espn.go.com/ffl/leagueoffice?leagueId=50
 function doGrunt {
     ~/bin/dotfiles/bash/gruntterm.sh $2
     grunt $1
+}
+
+## Run Specified Gulp Command
+function doGulp {
+    ~/bin/dotfiles/bash/gulpterm.sh $2
+    gulp $1
 }
 
 ## test find and replace file pattern (match/replace)
@@ -154,27 +169,21 @@ function runcomm {
 ## cd to ~/bin
 alias bin='cd ~/bin'
 
-## cd to /RedFuse_FrontEndDev/Sites
-alias sites='cd /RedFuse_FrontEndDev/Sites'
+## cd to /Sites
+alias sites='cd /Sites'
+
+## cd to /Sites/TheNerdery
+alias nerd='cd /Sites/TheNerdery'
+
+#cd to ~/Sites_Creative
+alias assets='cd ~/Sites_Creative'
 
 ## cd to /RedFuse_FrontEndDev/Sites/wehrhaus
-alias wehrhaus='cd /RedFuse_FrontEndDev/Sites/wehrhaus'
-
-## cd to /Sites/iwd
-alias iwd='cd /RedFuse_FrontEndDev/Sites/iwd'
-
-## cd to /ColgateAssets/assets
-alias assets='cd /RedFuse_FrontEndDev/AppAssets/assets'
-
-## open assets
-alias oa='open ~/ColgateAssets/assets'
-
-## cd to /svn16
-alias svn16='cd /svn16'
+alias wehrhaus='cd /Sites/wehrhaus'
 
 ## goto specific directory
 function goto {
-	cd $1
+    cd $1
 }
 
 ################################
@@ -220,19 +229,19 @@ function svnrevertspec {
 
 ## svn commit current directory
 function svncomm {
-	svn commit -m "$1"
+    svn commit -m "$1"
 }
 
 ## svn update specific directory
 function svnUpdateSpec {
-	svn update $1
-	cd $1
+    svn update $1
+    cd $1
 }
 
 ## svn update specific directory to specific directory
 function svnUpdateSpecToSpec {
-	cdTo $1
-	svnUpdateSpec $2
+    cdTo $1
+    svnUpdateSpec $2
 }
 
 #############################
@@ -272,22 +281,6 @@ function gitfetch {
 ## ssh into webfactional
 alias jwssh='ssh jwehrman@jwehrman.webfactional.com'
 
-################################
-#----------- Apache -----------#
-#------------------------------#
-
-## display running Apache processes
-alias statusa='ps -ax | grep Apache'
-
-## start apache
-alias starta='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k start'
-
-## stop apache
-alias stopa='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k stop'
-
-## restart apache
-alias restarta='sudo -s /ColgateDevEnv/Apache2.2MacOS/bin/apachectl -k restart'
-
 ###############################
 #----------- MySQL -----------#
 #-----------------------------#
@@ -303,16 +296,6 @@ alias mysql=/usr/local/mysql/bin/mysql
 
 ## MySQL Admin
 alias mysqladmin=/usr/local/mysql/bin/mysqladmin
-
-##############################################
-#----------- CP Local Environment -----------#
-#--------------------------------------------#
-
-## run local environment
-alias runloc='. ~/bin/dotfiles/bash/cplocalenv.sh'
-
-## run sso local environment
-alias runsso='. ~/bin/dotfiles/bash/runsso.sh'
 
 ################################
 #----------- NodeJS -----------#
@@ -342,157 +325,65 @@ function coffeewatch {
 }
 
 ##########################################
-#----------- Colgate Projects -----------#
-#----------------------------------------#
+#----------- NERDERY SPECIFIC -----------#
+##########################################
 
-## RedFuse BoilerPlate v1
-function rfbp {
-    iwd
-    cd RedFuse-BoilerPlate-v1/trunk
+## git clone from nerderylabs.com
+function gitClone {
+    nerd && git clone git@git.nerderylabs.com:$1 && cd $1
 }
 
-## RedFuse BoilerPlate -Sublime
-function sublrfbp {
-    iwd
-    subl -n RedFuse-BoilerPlate-v1
-    rfbp
+## ssh into athens
+alias athens='ssh athens.sierrabravo.net'
+
+## ssh into london
+alias london='ssh london.sierrabravo.net'
+
+## Learn To Live Lesson Loader
+function loadLesson {
+    gulp copyActiveLesson --path Programs/$1/Lesson$2/lessonData.json && gulp serve --path Programs/$1/Lesson$2/lessonData.json
 }
 
-## SAC
-function sac {
-    iwd
-    cd ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection/
+###########################################
+#----------- HalfTime SPECIFIC -----------#
+###########################################
+
+function halftime {
+    nerd && cd HalfTime
 }
 
-## SAC -Sublime
-function sublsac {
-    iwd
-    subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection
-    sac
-    canary http://localhost.iwd.colgatemaximumcavityprotection.com/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 sac
-    fi
+function queueServer {
+    halftime && cd queue-server
 }
 
-## SAC v2
-function sac2 {
-    iwd
-    cd ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2/
+function queueGameServer {
+    halftime && cd queue-game-server
 }
 
-## SAC v2 -Sublime
-function sublsac2 {
-    iwd
-    subl ColgateOralCare/trunk/Toothpaste/ColgateMaximumCavityProtection_v2
-    sac2
-    canary http://localhost.iwd_v2.colgatemaximumcavityprotection.com/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 sac2
-    fi
+function queueWebClient {
+    halftime && cd queue-web-client
 }
 
-
-## Go to Professional in Terminal
-function prof {
-    iwd
-    cd Professional/trunk/v1/
+function startQ_WebClient {
+    tab /Sites/TheNerdery/HalfTime/queue-web-client 'WebClient' 'Novel' 'scripts/server'
 }
 
-## Professional -Sublime
-function sublprof {
-    iwd
-    subl Professional
-    prof
-    canary http://localhost.iwd.colgate.com/Professional/v1/en/us/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 Professional
-    fi
+function startQ_GameServer {
+    tab /Sites/TheNerdery/HalfTime/queue-game-server 'GameServer' 'Red Sands' 'npm run reload'
 }
 
-
-## Go to Palmolive in Terminal
-function palmolive {
-    iwd
-    cd Palmolive/trunk/v3
+function startQ_QueueServer_Postgres {
+    tab /Sites/TheNerdery/HalfTime/queue-server 'QueueServer - Postgres' 'Grass' 'pg_ctl -D /usr/local/var/postgres93 start'
 }
 
-## Palmolive -Sublime
-function sublpalmolive {
-    iwd
-    subl Palmolive
-    palmolive
-    canary http://localhost.iwd.palmolive.com/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 Palmolive
-    fi
+function startQ_QueueServer {
+    tab /Sites/TheNerdery/HalfTime/queue-server 'QueueServer' 'Grass' 'scripts/server'
 }
 
-
-## COW
-function cow {
-    iwd
-    cd ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2/
+function startQ_RedisServer {
+    tab /Sites/TheNerdery/HalfTime 'Redis-Server' 'Pro' 'redis-server'
 }
 
-## COW -Sublime
-function sublcow {
-    iwd
-    subl ColgateOralCare/trunk/Whitening/ColgateOpticWhite_v2
-    cow
-    canary http://localhost.iwd.colgate.com/ColgateOralCare/Whitening/ColgateOpticWhite_v2/US/EN/index.shtml
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 cow
-    fi
-}
-
-## Colgate Sensitive
-function sens {
-    iwd
-    cd ColgateSensitiveNew/trunk/v2/
-}
-
-## Colgate Sensitive -Sublime
-function sublsens {
-    iwd
-    subl ColgateSensitiveNew/
-    sens
-    canary http://localhost.iwd.colgatesensitive.com/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 sens
-    fi
-}
-
-## Colgate Kids
-function kids {
-    iwd
-    cd Kids-World/trunk/v3/
-}
-
-## Colgate Kids -Sublime
-function sublkids {
-    iwd
-    subl Kids-World/
-    kids
-    canary http://localhost.iwd.colgate.com/Kids-World/v3/US/EN/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 kids
-    fi
-}
-
-## Irish Spring
-function is {
-    iwd
-    cd IrishSpring/trunk/v3/
-}
-
-## Irish Spring -Sublime
-function sublis {
-    iwd
-    subl IrishSpring/
-    is
-    canary http://localhost.iwd.irishspring.com/home/
-    if [[ $1 ]]; then
-        newTerm doGrunt $1 is
-    fi
+function startQ {
+    startQ_WebClient && startQ_GameServer && startQ_QueueServer && startQ_QueueServer_Postgres && startQ_RedisServer && halftime && subl .
 }

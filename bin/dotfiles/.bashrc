@@ -8,4 +8,5 @@ export PATH=$HOME/SDKs/phantomjs-1.9.7/bin:$PATH
 
 ## setup nvm for node and set version
 . $HOME/nvm/nvm.sh
-nvm use 0.11.12
+# nvm use 0.11.12
+nvm use 0.10.24
