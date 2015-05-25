@@ -11,7 +11,7 @@
 # set prompt to display as:
 # wehrhaus:working directory
 # →
-PS1="\n\e[1;34mwehrhaus\e[m:\w\n👽 "
+# PS1="\n\e[1;34mwehrhaus\e[m:\w\n👽 "
 
 # Show all filename extensions in Finder
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true

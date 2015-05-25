@@ -52,7 +52,7 @@ alias o='open . &'
 alias ob='open . ~/bin/dotfiles/bash'
 
 ## open ~/bin in sublime
-alias openbin='subl ~/.bashsrc ~/.bashrc ~/.bash_profile ~/bin'
+alias openbin='subl ~/.bashsrc ~/.bashrc ~/.bash_profile ~/bin ~/.zshrc'
 
 ## open iPhone Simulator
 alias ios='open /Applications/Xcode.app/Contents/Developer/Applications/iOS\ Simulator.app'
