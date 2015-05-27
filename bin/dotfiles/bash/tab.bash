@@ -27,8 +27,6 @@ function tab () {
 
   local term=$TERM_PROGRAM
 
-  echo term
-
   if [ -d "$1" ]; then
     cdto=`cd "$1"; pwd`
     tabTitle="${2}"
