@@ -39,8 +39,8 @@ function tab () {
   fi
 
 
-
   if [ $term == "Apple_Terminal" ]; then
+
     osascript 2>/dev/null -e "
       tell application \"Terminal\"
         activate
@@ -55,14 +55,19 @@ function tab () {
         do script \"cd \\\"$cdto\\\"$cmd\" in window 1
       end tell
     "
+
   elif [ $term == "iTerm.app" ]; then
+
     osascript 2>/dev/null -e "
       tell application \"iTerm\"
         tell current Terminal
-          launch session \"$tabTitle\"
+          launch session \"Default Session\"
+
           tell the last session
+            set name to \"$tabTitle\"
             write text \"cd \\\"$cdto\\\"$cmd\"
           end tell
+
         end tell
       end tell
     "
